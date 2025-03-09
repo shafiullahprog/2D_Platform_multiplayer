@@ -1,25 +1,37 @@
+using System;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
-    [SerializeField] private bool isGrounded;
+    [SerializeField] private bool isGrounded, isJumping;
 
     [Header("Movement Settings")]
-    public float moveSpeed = 5f;
-    public float jumpForce = 10f;
+    [SerializeField] float moveSpeed = 5f;
+
+    [Header("JumpSetting Settings")]
+    [SerializeField] float jumpForce = 10f;
+    [SerializeField] float fallMultiplier = 2.5f;
+    [SerializeField] float jumpMultiplier = 2f;
+    [SerializeField] float jumpTime;
+    float jumpCounter;
+
+    private float swipeThreshold = 50f;
 
     private Vector2 startTouchPosition, endTouchPosition;
-    private float swipeThreshold = 50f;
+    private Vector2 vectorGravity;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+    
+        vectorGravity = new Vector2(0, -Physics2D.gravity.y);
     }
 
     void Update()
     {
         DetectSwipeInput();
+        FallFaster();
     }
 
     private void DetectSwipeInput()
@@ -40,23 +52,24 @@ public class PlayerMovement : MonoBehaviour
                     break;
             }
         }
+        else
+        {
+            isJumping = false;
+        }
     }
 
     private void HandleSwipe()
     {
         Vector2 swipeDelta = endTouchPosition - startTouchPosition;
-        Debug.Log("Swipe Delta: " + swipeDelta.magnitude);
+        swipeDelta = JumpController(swipeDelta);
+        MovementController(swipeDelta);
+    }
 
-        if(swipeDelta.magnitude < swipeThreshold)
-        {
-            if (isGrounded)
-            {
-                Jump();
-            }
-        }
+    private void MovementController(Vector2 swipeDelta)
+    {
         if (Mathf.Abs(swipeDelta.x) > swipeThreshold || Mathf.Abs(swipeDelta.y) > swipeThreshold)
         {
-            if (Mathf.Abs(swipeDelta.x) > Mathf.Abs(swipeDelta.y)) // Horizontal Swipe
+            if (Mathf.Abs(swipeDelta.x) > Mathf.Abs(swipeDelta.y))
             {
                 if (swipeDelta.x > 0)
                 {
@@ -68,6 +81,36 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void FallFaster()
+    {
+        if (rb.velocity.y < 0)
+        {
+            rb.velocity -= vectorGravity * fallMultiplier * Time.deltaTime;
+        }
+
+        if (rb.velocity.y > 0 && isJumping)
+        {
+            rb.velocity += vectorGravity * jumpMultiplier * Time.deltaTime;
+            
+            jumpCounter += Time.deltaTime;
+            if(jumpCounter >= jumpTime)
+            {
+                isJumping = false;
+            }
+        }
+    }
+    private Vector2 JumpController(Vector2 swipeDelta)
+    {
+        if (swipeDelta.magnitude < swipeThreshold)
+        {
+            if (isGrounded)
+            {
+                Jump();
+            }
+        }
+        return swipeDelta;
     }
 
     private void MoveRight()
@@ -83,7 +126,9 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        jumpCounter = 0;
         isGrounded = false;
+        isJumping = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
