@@ -21,10 +21,9 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 startTouchPosition, endTouchPosition;
     private Vector2 vectorGravity;
 
-    void Start()
+    public void Initialize()
     {
         rb = GetComponent<Rigidbody2D>();
-    
         vectorGravity = new Vector2(0, -Physics2D.gravity.y);
     }
 
