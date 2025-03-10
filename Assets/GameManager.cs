@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+
+
         if(playerMovement!=null)
             playerMovement.Initialize();
         
