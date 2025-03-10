@@ -353,7 +353,7 @@ GameObject:
   - component: {fileID: 798250535}
   - component: {fileID: 798250537}
   m_Layer: 0
-  m_Name: 9-Sliced
+  m_Name: Ground
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -545,9 +545,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602ebdaedd68b26478a7eb3afb1c9daf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSpawner: {fileID: 967826919}
   objectPooler: {fileID: 2019951594}
   levelGenerator: {fileID: 1463909735}
-  playerMovement: {fileID: 0}
 --- !u!4 &1304037196
 Transform:
   m_ObjectHideFlags: 0
@@ -573,6 +573,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1463909736}
   - component: {fileID: 1463909735}
+  - component: {fileID: 1463909737}
   m_Layer: 0
   m_Name: LevelGenerator
   m_TagString: Untagged
@@ -616,6 +617,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1463909737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1463909734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &2019951593
 GameObject:
   m_ObjectHideFlags: 0
@@ -742,11 +765,11 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 2081642277}
   - {fileID: 519420032}
   - {fileID: 619394802}
   - {fileID: 798250536}
-  - {fileID: 1463909736}
-  - {fileID: 2019951595}
-  - {fileID: 1304037196}
-  - {fileID: 2081642277}
   - {fileID: 967826918}
+  - {fileID: 2019951595}
+  - {fileID: 1463909736}
+  - {fileID: 1304037196}

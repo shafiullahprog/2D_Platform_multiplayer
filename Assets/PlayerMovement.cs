@@ -1,8 +1,10 @@
+using Photon.Pun;
 using System;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private PhotonView photonView;
     private Rigidbody2D rb;
     [SerializeField] private bool isGrounded, isJumping;
 
@@ -21,16 +23,28 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 startTouchPosition, endTouchPosition;
     private Vector2 vectorGravity;
 
-    public void Initialize()
+    private void Awake()
+    {
+        photonView = GetComponent<PhotonView>();
+    }
+
+    public void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        if (!photonView.IsMine)
+        {
+            rb.isKinematic = true;
+        }
         vectorGravity = new Vector2(0, -Physics2D.gravity.y);
     }
 
     void Update()
     {
-        DetectSwipeInput();
-        FallFaster();
+        if (photonView.IsMine)
+        {
+            DetectSwipeInput();
+            FallFaster();
+        }
     }
 
     private void DetectSwipeInput()

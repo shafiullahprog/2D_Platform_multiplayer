@@ -1,6 +1,8 @@
+using Photon.Pun;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class ProceduralLevelGenerator : MonoBehaviour
+public class ProceduralLevelGenerator : MonoBehaviourPun
 {
     [Header("Level Settings")]
     public int numberOfPlatforms = 20;
@@ -21,13 +23,28 @@ public class ProceduralLevelGenerator : MonoBehaviour
     private GameObject lastPlatform;
     private GameObject endPlatform;
 
+    private int levelSeed;
+
     public void Initialize()
     {
-        GenerateLevel();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            levelSeed = Random.Range(0, 1000);
+            photonView.RPC("SyncLevelSeed", RpcTarget.OthersBuffered, levelSeed);
+            GenerateLevel(levelSeed);
+        }
     }
 
-    void GenerateLevel()
+    [PunRPC]
+    void SyncLevelSeed(int seed)
     {
+        levelSeed = seed;
+        GenerateLevel(levelSeed);
+    }
+
+    void GenerateLevel(int seed)
+    {
+        Random.InitState(seed);
         yPos = transform.position.y;
 
         for (int i = 0; i < numberOfPlatforms; i++)
@@ -44,6 +61,7 @@ public class ProceduralLevelGenerator : MonoBehaviour
             yPos += yGap;
 
             GameObject platform = ObjectPooler.Instance.SpawnFromPool("Platform", new Vector2(xPos, yPos));
+            SetObjectParent(platform);
 
             GetEndPlatform(i, platform);
 
@@ -62,16 +80,27 @@ public class ProceduralLevelGenerator : MonoBehaviour
 
             if (Random.value < currentObstacleChance && i < numberOfPlatforms - 1)
             {
-                ObjectPooler.Instance.SpawnFromPool("Obstacle", new Vector2(xPos, yPos + 0.5f));
+                GameObject obstacle = ObjectPooler.Instance.SpawnFromPool("Obstacle", new Vector2(xPos, yPos + 0.5f));
+                SetObjectParent(obstacle);
             }
         }
 
-        yPos += 3.0f;
+        SpawnGoal();
+    }
+
+    private void SpawnGoal()
+    {
         if (endPlatform != null)
         {
             Vector2 goalPos = endPlatform.transform.position + new Vector3(1, 2f, 0);
-            ObjectPooler.Instance.SpawnFromPool("Goal", goalPos);
+            GameObject goal = ObjectPooler.Instance.SpawnFromPool("Goal", goalPos);
+            SetObjectParent(goal);
         }
+    }
+
+    private void SetObjectParent(GameObject obj)
+    {
+        obj.transform.SetParent(transform);
     }
 
     private void GetEndPlatform(int i, GameObject platform)
