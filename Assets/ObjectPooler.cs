@@ -10,6 +10,7 @@ public class ObjectPooler : MonoBehaviour
         public GameObject prefab;
         public int size;
     }
+    public List<GameObject> curentPlatorm;
 
     public List<Pool> pools;
     public Dictionary<string, List<GameObject>> poolDictionary;
@@ -35,7 +36,7 @@ public class ObjectPooler : MonoBehaviour
                 obj.SetActive(false);
                 objectPool.Add(obj);
             }
-
+            curentPlatorm = objectPool;
             poolDictionary.Add(pool.tag, objectPool);
         }
     }
@@ -44,8 +45,8 @@ public class ObjectPooler : MonoBehaviour
     {
 
         List<GameObject> objectPool = poolDictionary[tag];
-
-        foreach(GameObject obj in objectPool)
+        
+        foreach (GameObject obj in objectPool)
         {
             if (!obj.activeInHierarchy)
             {

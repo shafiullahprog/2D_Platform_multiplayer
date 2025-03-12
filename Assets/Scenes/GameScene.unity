@@ -203,7 +203,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.00489498, g: 0.039679, b: 0.09433961, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -593,15 +593,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9338564f3d018046a0c88968d697a0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfPlatforms: 3
-  minX: -5
-  maxX: 5
+  numberOfPlatforms: 4
+  minX: -4
+  maxX: 4
   startMinGapY: 1.5
   startMaxGapY: 2.5
   startObstacleChance: 0.2
-  maxObstacleChance: 0.5
-  maxGapIncrease: 1
-  difficultyIncreaseHeight: 3
+  maxObstacleChance: 0.8
+  maxGapIncrease: 2
+  difficultyIncreaseHeight: 5
 --- !u!4 &1463909736
 Transform:
   m_ObjectHideFlags: 0
@@ -668,6 +668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0686717a91f2514e9b42395a19794d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curentPlatorm: []
   pools:
   - tag: Platform
     prefab: {fileID: 3421766075298195745, guid: 09c66cd37a721dc4491058c29788adbd, type: 3}

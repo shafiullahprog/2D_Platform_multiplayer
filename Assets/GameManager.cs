@@ -17,6 +17,6 @@ public class GameManager : MonoBehaviour
             objectPooler.Initialize();
 
         if (levelGenerator != null/* && PhotonNetwork.CurrentRoom.PlayerCount == 1*/)
-           levelGenerator.Initialize();
+            levelGenerator.Initialize();
     }
 }

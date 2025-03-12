@@ -8,13 +8,15 @@ public class PlayerSpawner : MonoBehaviour
 {
     public GameObject playerPrefab;
 
+    private Vector2 spawnPosVal;
     public void Initialize()
     {
         SpawnPlayer();
     }
     void SpawnPlayer()
     {
-        Vector2 spawnPos = new Vector2(Random.Range(-2f, 2f), -3f);
+        spawnPosVal = new Vector2(Random.Range(-2, 2), -4.3f);
+        Vector2 spawnPos = spawnPosVal;
         PhotonNetwork.Instantiate(playerPrefab.name, spawnPos, Quaternion.identity);
     }
 }

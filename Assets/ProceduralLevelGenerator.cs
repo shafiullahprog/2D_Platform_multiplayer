@@ -54,7 +54,7 @@ public class ProceduralLevelGenerator : MonoBehaviourPun
             float currentMaxGapY = Mathf.Lerp(startMaxGapY, maxGapIncrease + 1.0f, difficultyFactor);
             float currentObstacleChance = Mathf.Lerp(startObstacleChance, maxObstacleChance, difficultyFactor);
 
-            Debug.Log("Difficulty Factor: " + difficultyFactor);
+            Debug.Log("current obstacles: "+ currentObstacleChance);
 
             float xPos = Random.Range(minX, maxX);
             float yGap = Random.Range(currentMinGapY, currentMaxGapY);
@@ -76,15 +76,15 @@ public class ProceduralLevelGenerator : MonoBehaviourPun
             }
 
             lastPlatform = platform;
-
-
-            if (Random.value < currentObstacleChance && i < numberOfPlatforms - 1)
+            float randval = Random.value;
+            
+            Debug.Log("randval: " + randval);
+            if (randval < currentObstacleChance && i < numberOfPlatforms - 1)
             {
-                GameObject obstacle = ObjectPooler.Instance.SpawnFromPool("Obstacle", new Vector2(xPos, yPos + 0.5f));
+                GameObject obstacle = ObjectPooler.Instance.SpawnFromPool("Obstacle", new Vector2(xPos + 1 /*+ Random.Range(-1,1)*/, yPos + 0.5f));
                 SetObjectParent(obstacle);
             }
         }
-
         SpawnGoal();
     }
 
