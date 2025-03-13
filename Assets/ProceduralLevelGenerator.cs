@@ -92,7 +92,7 @@ public class ProceduralLevelGenerator : MonoBehaviourPun
     {
         if (endPlatform != null)
         {
-            Vector2 goalPos = endPlatform.transform.position + new Vector3(1, 2f, 0);
+            Vector2 goalPos = endPlatform.transform.position + new Vector3(1, 1.7f, 0);
             GameObject goal = ObjectPooler.Instance.SpawnFromPool("Goal", goalPos);
             SetObjectParent(goal);
         }

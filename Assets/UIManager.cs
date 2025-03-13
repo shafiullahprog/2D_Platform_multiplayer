@@ -18,20 +18,9 @@ public class UIManager : MonoBehaviour
         gameOverScreen.SetActive(false);
     }
 
-    public void StartGame()
-    {
-        startScreen.SetActive(false);
-        SceneManager.LoadScene("GameScene");
-    }
-
     public void ShowGameOver()
     {
         gameOverScreen.SetActive(true);
-    }
-
-    public void RestartGame()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void QuitGame()
