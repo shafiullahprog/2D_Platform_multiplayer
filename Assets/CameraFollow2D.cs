@@ -1,11 +1,11 @@
 using Cinemachine;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 public class CameraFollow2D : MonoBehaviour
 {
-    [SerializeField] CinemachineVirtualCamera cam;
-
+    [SerializeField] GameObject player;
     public void Initialize()
     {
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Player"))
@@ -13,9 +13,18 @@ public class CameraFollow2D : MonoBehaviour
             PhotonView view = obj.GetComponent<PhotonView>();
             if (view.IsMine)
             {
-                cam.Follow = obj.transform;
+                player = obj;
                 break;
             }
         }
+    }
+
+    private void LateUpdate()
+    {
+        var pos = transform.position + (transform.position - player.transform.position);
+        pos.x = transform.position.x;
+        pos.y = transform.position.y;
+        pos.z = -10;
+        transform.position = pos;
     }
 }

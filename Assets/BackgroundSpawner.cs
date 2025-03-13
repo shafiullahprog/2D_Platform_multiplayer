@@ -31,17 +31,17 @@ public class BackgroundSpawner : MonoBehaviour
 
         Vector3 leftEdge = cam.ViewportToWorldPoint(new Vector3(0, 0.5f, 10));
         Vector3 rightEdge = cam.ViewportToWorldPoint(new Vector3(1, 0.5f, 10));
-        //Vector3 topEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 1, 10));
         Vector3 bottomEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 0, 10));
 
         SpawnAndScaleBackground(leftEdge + Vector3.left * offset, scaledSize_Height);
         SpawnAndScaleBackground(rightEdge + Vector3.right * offset, scaledSize_Height);
-       SpawnAndScaleBackground(bottomEdge + Vector3.down * offset, scaledSize_Width);
+        SpawnAndScaleBackground(bottomEdge + Vector3.down * offset, scaledSize_Width);
     }
 
     void SpawnAndScaleBackground(Vector3 position, Vector3 scale)
     {
         GameObject bg = Instantiate(backgroundPrefab, position, Quaternion.identity);
         bg.transform.localScale = scale;
+        bg.transform.SetParent(transform);
     }
 }
