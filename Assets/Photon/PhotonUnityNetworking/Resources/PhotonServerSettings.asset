@@ -41,6 +41,7 @@ MonoBehaviour:
   - RespawnSpaceship
   - SyncLevelSeed
   - ResetPlayerRPC
+  - RPC_NotifyLose
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

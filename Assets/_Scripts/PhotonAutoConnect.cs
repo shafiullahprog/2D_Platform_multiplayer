@@ -1,6 +1,13 @@
 using Photon.Pun;
 using Photon.Realtime;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public static class SceneNames
+{
+    public const string GameScene = "GameScene";
+}
 
 public class PhotonAutoConnect : MonoBehaviourPunCallbacks
 {
@@ -24,6 +31,17 @@ public class PhotonAutoConnect : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("Joined a room! Starting game...");
-        PhotonNetwork.LoadLevel("GameScene");
+        PhotonNetwork.LoadLevel(SceneNames.GameScene);
+        //StartCoroutine(LoadGameSceneAsync(SceneNames.GameScene));
+    }
+
+    IEnumerator LoadGameSceneAsync(string sceneName)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
     }
 }

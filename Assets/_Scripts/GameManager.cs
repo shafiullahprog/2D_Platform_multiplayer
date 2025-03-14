@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,5 +23,21 @@ public class GameManager : MonoBehaviour
 
         if(cameraFollow2D != null)
             cameraFollow2D.Initialize();
+    }
+
+    private void OnEnable()
+    {
+        UIManager.OnGameOver += OnGameOver;
+    }
+
+    private void OnDisable()
+    {
+        UIManager.OnGameOver -= OnGameOver;
+    }
+
+    private void OnGameOver()
+    {
+        cameraFollow2D.player.GetComponent<PlayerMovement>().enabled = false;
+        cameraFollow2D.enabled = false;
     }
 }

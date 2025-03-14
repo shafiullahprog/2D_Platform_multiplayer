@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Bson;
 using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,6 +43,17 @@ public class ProceduralLevelGenerator : MonoBehaviourPun
         GenerateLevel(levelSeed);
     }
 
+/*#if UNITY_EDITOR
+    private void Start()
+    {
+        ManuaGenerateLevel();
+    }
+    public void ManuaGenerateLevel()
+    {
+        GenerateLevel(0);
+    }
+#endif*/
+
     void GenerateLevel(int seed)
     {
         Random.InitState(seed);
@@ -54,8 +66,7 @@ public class ProceduralLevelGenerator : MonoBehaviourPun
             float currentMaxGapY = Mathf.Lerp(startMaxGapY, maxGapIncrease + 1.0f, difficultyFactor);
             float currentObstacleChance = Mathf.Lerp(startObstacleChance, maxObstacleChance, difficultyFactor);
 
-            Debug.Log("current obstacles: "+ currentObstacleChance);
-
+            Debug.Log("currentMinGapY: " + currentMinGapY);
             float xPos = Random.Range(minX, maxX);
             float yGap = Random.Range(currentMinGapY, currentMaxGapY);
             yPos += yGap;
@@ -81,7 +92,7 @@ public class ProceduralLevelGenerator : MonoBehaviourPun
             Debug.Log("randval: " + randval);
             if (randval < currentObstacleChance && i < numberOfPlatforms - 1)
             {
-                GameObject obstacle = ObjectPooler.Instance.SpawnFromPool("Obstacle", new Vector2(xPos + 1 /*+ Random.Range(-1,1)*/, yPos + 0.5f));
+                GameObject obstacle = ObjectPooler.Instance.SpawnFromPool("Obstacle", new Vector2(xPos + 1, yPos + 0.5f));
                 SetObjectParent(obstacle);
             }
         }
@@ -93,7 +104,10 @@ public class ProceduralLevelGenerator : MonoBehaviourPun
         if (endPlatform != null)
         {
             Vector2 goalPos = endPlatform.transform.position + new Vector3(1, 1.7f, 0);
-            GameObject goal = ObjectPooler.Instance.SpawnFromPool("Goal", goalPos);
+
+            Quaternion rotation = Quaternion.Euler(0, 0, -90);
+            GameObject goal = PhotonNetwork.Instantiate("Goal", goalPos, rotation);
+
             SetObjectParent(goal);
         }
     }
