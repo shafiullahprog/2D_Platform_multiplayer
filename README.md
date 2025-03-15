@@ -54,7 +54,6 @@ Controls (Touch Input for Mobile)
 | Move Left   | Swipe left                     |  
 | Move Right  | Swipe right                    |  
 | Jump        | Swipe up / Tap                 |
-![image](https://github.com/user-attachments/assets/676c24a0-8471-4ad2-a5d6-aaa834977124)
 
 Win Conditions
 - The first player to reach the goal platform wins the game.
